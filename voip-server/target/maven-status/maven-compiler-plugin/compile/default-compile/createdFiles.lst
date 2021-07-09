@@ -1,7 +1,0 @@
-pl\poznan\put\voip\server\threads\ClientThread.class
-pl\poznan\put\voip\server\nethandlers\ClientNetHandler.class
-pl\poznan\put\voip\server\services\DatabaseService.class
-pl\poznan\put\voip\server\user\User.class
-pl\poznan\put\voip\server\Server.class
-pl\poznan\put\voip\server\services\UserService.class
-pl\poznan\put\voip\server\Main.class
