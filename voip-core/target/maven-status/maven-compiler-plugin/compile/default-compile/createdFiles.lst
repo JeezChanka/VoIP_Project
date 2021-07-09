@@ -1,0 +1,9 @@
+pl\poznan\put\voip\core\session\Session.class
+pl\poznan\put\voip\core\commands\CommandDto.class
+pl\poznan\put\voip\core\utils\Validators.class
+pl\poznan\put\voip\core\utils\RsaUtils.class
+pl\poznan\put\voip\core\utils\Logs.class
+pl\poznan\put\voip\core\session\SocketWrapper.class
+pl\poznan\put\voip\core\commands\CommandHandler.class
+pl\poznan\put\voip\core\utils\CryptUtils.class
+pl\poznan\put\voip\core\utils\AesUtils.class
