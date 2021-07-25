@@ -58,7 +58,7 @@
             <Font size="24.0" />
          </font>
       </Button>
-      <Text fx:id="error" fill="#ee1228" layoutX="149.0" layoutY="409.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Złe dane logowania!!" textAlignment="CENTER" wrappingWidth="201.13671875">
+      <Text fx:id="error" fill="#ee1228" layoutX="149.0" layoutY="409.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="201.13671875">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>

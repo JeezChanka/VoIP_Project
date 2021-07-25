@@ -10,9 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="500.0"
-            xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="pl.poznan.put.voip.client.controllers.RegisterController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.poznan.put.voip.client.controllers.RegisterController">
    <children>
       <MenuBar prefHeight="25.0" prefWidth="500.0">
         <menus>
@@ -23,7 +21,7 @@
           </Menu>
         </menus>
       </MenuBar>
-      <Text fx:id="errorPassword" fill="#ee1228" layoutX="124.0" layoutY="472.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Błąd hasła!" textAlignment="CENTER" wrappingWidth="292.13671875">
+      <Text fx:id="errorPassword" fill="#ee1228" layoutX="103.0" layoutY="472.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Błąd hasła!" textAlignment="CENTER" wrappingWidth="292.13671875">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
@@ -33,12 +31,22 @@
             <Font size="36.0" />
          </font>
       </Text>
+      <Text fx:id="errorLogin" fill="#ee1228" layoutX="64.0" layoutY="257.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Podany użytkownik już istnieje!" textAlignment="CENTER" wrappingWidth="371.13671875">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Text>
       <Text layoutX="106.0" layoutY="302.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Login:">
          <font>
             <Font size="24.0" />
          </font>
       </Text>
       <Text layoutX="105.0" layoutY="368.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hasło:">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Text layoutX="78.0" layoutY="434.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Powtórz:">
          <font>
             <Font size="24.0" />
          </font>
@@ -53,26 +61,16 @@
             <Font size="18.0" />
          </font>
       </PasswordField>
-      <Button layoutX="115.0" layoutY="484.0" mnemonicParsing="false" onAction="#register" text="Zarejestruj">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Button>
       <PasswordField fx:id="password1" layoutX="187.0" layoutY="406.0" prefHeight="35.0" prefWidth="185.0" promptText="podaj hasło">
          <font>
             <Font size="18.0" />
          </font>
       </PasswordField>
-      <Text layoutX="78.0" layoutY="434.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Powtórz:">
+      <Button layoutX="115.0" layoutY="484.0" mnemonicParsing="false" onAction="#register" text="Zarejestruj">
          <font>
             <Font size="24.0" />
          </font>
-      </Text>
-      <Text fx:id="errorLogin" fill="#ee1228" layoutX="104.0" layoutY="259.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Podany użytkownik już istnieje!" textAlignment="CENTER" wrappingWidth="292.13671875">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </Text>
+      </Button>
       <Button layoutX="270.0" layoutY="484.0" mnemonicParsing="false" onAction="#cancel" text="Anuluj">
          <font>
             <Font size="24.0" />

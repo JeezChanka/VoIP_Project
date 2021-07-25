@@ -10,7 +10,7 @@
             xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="pl.poznan.put.voip.client.controllers.ConnectController">
    <children>
-      <Text fx:id="error" fill="#ff0202" layoutX="81.0" layoutY="406.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nie odnaleziono serwera!" textAlignment="CENTER" wrappingWidth="337.267578125">
+      <Text fx:id="error" fill="#ff0202" layoutX="81.0" layoutY="406.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="337.267578125">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>

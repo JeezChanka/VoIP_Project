@@ -13,45 +13,45 @@ import pl.poznan.put.voip.core.utils.Validators;
 public class RegisterController implements Controller {
 
     @FXML
-    private TextField loginField;
+    private TextField username;
 
     @FXML
-    private PasswordField passwordField;
+    private PasswordField password;
 
     @FXML
-    private PasswordField passwordRepeatField;
+    private PasswordField password1;
 
     @FXML
-    private Text errorPassText;
+    private Text errorPassword;
 
     @FXML
-    private Text errorText;
+    private Text errorLogin;
 
     @FXML
     void register(ActionEvent event) {
-        String login = loginField.getText();
-        String password = passwordField.getText();
-        String passwordRepeat = passwordRepeatField.getText();
+        String login = username.getText();
+        String pass = password.getText();
+        String passwordRepeat = password1.getText();
 
         if (!Validators.isLoginValid(login)) {
-            errorPassText.setText("Login nie spełnia wymagań");
+            errorPassword.setText("Login nie spełnia wymagań");
             return;
         }
-        else if (!Validators.isPasswordValid(password)) {
-            errorPassText.setText("Hasło nie spełnia wymagań");
+        else if (!Validators.isPasswordValid(pass)) {
+            errorPassword.setText("Hasło nie spełnia wymagań");
             return;
         }
-        else if (!password.equals(passwordRepeat)) {
-            errorPassText.setText("Hasła są różne");
+        else if (!pass.equals(passwordRepeat)) {
+            errorPassword.setText("Hasła są różne");
             return;
         }
         else {
-            errorPassText.setText("");
+            errorPassword.setText("");
         }
 
         synchronized (Client.getClient()) {
             UserService us = Client.getClient().getUserService();
-            us.register(login, password);
+            us.register(login, pass);
         }
     }
 
@@ -68,21 +68,21 @@ public class RegisterController implements Controller {
                     break;
                 }
                 case "ALREADY_EXISTS": {
-                    errorText.setText("Konto już istnieje.");
+                    errorLogin.setText("Konto już istnieje.");
                     break;
                 }
                 case "INVALID_DATA": {
-                    errorText.setText("Wpisane dane nie spełniają wymagań.");
+                    errorLogin.setText("Wpisane dane nie spełniają wymagań.");
                     break;
                 }
                 case "ERROR": {
-                    errorText.setText("Wystąpił nieoczekiwany błąd.");
+                    errorLogin.setText("Wystąpił nieoczekiwany błąd.");
                     break;
                 }
             }
         }
         else {
-            errorText.setText("Wystąpił nieoczekiwany błąd.");
+            errorLogin.setText("Wystąpił nieoczekiwany błąd.");
         }
     }
 
@@ -92,7 +92,7 @@ public class RegisterController implements Controller {
     }
 
     @FXML
-    public void goBack(ActionEvent actionEvent) {
+    public void cancel(ActionEvent actionEvent) {
         synchronized (Client.getClient()) {
             Client.getClient().switchTo("loginView");
         }

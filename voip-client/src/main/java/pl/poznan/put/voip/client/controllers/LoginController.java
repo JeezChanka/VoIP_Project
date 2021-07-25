@@ -15,13 +15,13 @@ public class LoginController implements Controller {
     private Text registerText;
 
     @FXML
-    private TextField loginField;
+    private TextField username;
 
     @FXML
-    private PasswordField passwordField;
+    private PasswordField password;
 
     @FXML
-    private Text errorText;
+    private Text error;
 
     private String attemptLogin = null;
 
@@ -32,13 +32,13 @@ public class LoginController implements Controller {
 
     @FXML
     void login(ActionEvent event) {
-        String login = loginField.getText();
-        String password = passwordField.getText();
+        String login = username.getText();
+        String pass = password.getText();
 
         synchronized (Client.getClient()) {
             UserService us = Client.getClient().getUserService();
             attemptLogin = login;
-            us.login(login, password);
+            us.login(login, pass);
         }
     }
 
@@ -49,25 +49,25 @@ public class LoginController implements Controller {
             switch (result) {
                 case "OK": {
                     Client.getClient().currentSession().login(attemptLogin);
-                    Client.getClient().switchTo("lobbyView");
+                    Client.getClient().switchTo("contactView");
                     break;
                 }
                 case "ALREADY_LOGGED_IN": {
-                    errorText.setText("Konto jest obecnie zalogowane na serwerze.");
+                    error.setText("Konto jest obecnie zalogowane na serwerze.");
                     break;
                 }
                 case "INVALID_DATA": {
-                    errorText.setText("Błędne dane logowania.");
+                    error.setText("Błędne dane logowania.");
                     break;
                 }
                 case "ERROR": {
-                    errorText.setText("Wystąpił nieoczekiwany błąd.");
+                    error.setText("Wystąpił nieoczekiwany błąd.");
                     break;
                 }
             }
         }
         else {
-            errorText.setText("Wystąpił nieoczekiwany błąd.");
+            error.setText("Wystąpił nieoczekiwany błąd.");
         }
     }
 
@@ -77,6 +77,6 @@ public class LoginController implements Controller {
     }
 
     public Text getRegisterText() {
-        return registerText;
+        return error;
     }
 }
