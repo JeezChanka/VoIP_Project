@@ -6,7 +6,7 @@ import pl.poznan.put.voip.client.utils.Controller;
 public class ServerNetHandler {
 
     public void handleConnect(String... args) {
-        Client.getClient().currentController().onResponse("FIRECHAT", args);
+        Client.getClient().currentController().onResponse("WINDYTALKS", args);
     }
 
     public void handleLogin(String... args) {

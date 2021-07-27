@@ -40,7 +40,7 @@ public class Client {
         this.scene = scene;
         this.currentController = controller;
 
-        commands.put("FIRECHAT", serverNetHandler::handleConnect);
+        commands.put("WINDYTALKS", serverNetHandler::handleConnect);
         commands.put("LOGIN", serverNetHandler::handleLogin);
         commands.put("LOGOUT", serverNetHandler::handleLogout);
         commands.put("REGISTER", serverNetHandler::handleRegister);

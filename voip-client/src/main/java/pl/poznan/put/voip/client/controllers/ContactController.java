@@ -4,6 +4,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
 import pl.poznan.put.voip.client.Client;
 import pl.poznan.put.voip.client.services.UserService;
@@ -23,6 +24,9 @@ public class ContactController implements Controller {
 
     @FXML
     private TableView<User> loggedUsers;
+
+    @FXML
+    private TextArea receiverName;
 
     @FXML
     public void initialize() {

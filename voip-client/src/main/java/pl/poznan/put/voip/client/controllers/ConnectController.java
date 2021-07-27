@@ -67,7 +67,7 @@ public class ConnectController implements Controller {
 
             String encodedPublicKey = Base64.getEncoder().encodeToString(publicKey.getEncoded());
 
-            session.sendCommand("FIRECHAT", encodedPublicKey);
+            session.sendCommand("WINDYTALKS", encodedPublicKey);
         } catch (SocketTimeoutException e) {
             error.setText("Serwer nieosiągalny");
         } catch (IOException e) {
@@ -77,7 +77,7 @@ public class ConnectController implements Controller {
 
     @Override
     public void onResponse(String command, String... args) {
-        if (command.equals("FIRECHAT")) {
+        if (command.equals("WINDYTALKS")) {
             if (args.length != 1 || args[0].equals("ERROR")) {
                 error.setText("Nieznany błąd przy próbie połączenia z serwerem.");
                 return;

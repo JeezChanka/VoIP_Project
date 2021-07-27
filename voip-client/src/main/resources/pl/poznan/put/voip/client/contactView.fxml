@@ -6,12 +6,14 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="419.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.poznan.put.voip.client.controllers.ContactController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.poznan.put.voip.client.controllers.ContactController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
@@ -32,31 +34,49 @@
    <bottom>
       <AnchorPane prefHeight="323.0" prefWidth="419.0" BorderPane.alignment="CENTER">
          <children>
-            <Text fx:id="callingUser" layoutX="14.0" layoutY="89.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wybierz użytkownika:" wrappingWidth="390.94921875">
+            <Text fx:id="callingUser" layoutX="46.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wpisz pseudonim adresata rozmowy:" textAlignment="CENTER" wrappingWidth="403.94921875">
                <font>
                   <Font size="24.0" />
                </font>
             </Text>
-            <Button layoutX="136.0" layoutY="148.0" mnemonicParsing="false" onAction="#callControl" prefHeight="86.0" prefWidth="146.0" text="Połącz">
+            <Button layoutX="177.0" layoutY="176.0" mnemonicParsing="false" onAction="#callControl" prefHeight="86.0" prefWidth="146.0" text="Połącz">
                <font>
-                  <Font size="18.0" />
+                  <Font size="24.0" />
                </font>
             </Button>
-            <Text fx:id="userName" layoutX="113.0" layoutY="303.0" text="usN" wrappingWidth="270.0" />
-            <Text layoutX="14.0" layoutY="303.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Zalogowano jako:" wrappingWidth="270.0" />
-            <Text fx:id="error" fill="#eb0b0b" layoutX="248.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Zła nazwa użytkownika!" wrappingWidth="162.13671875">
+            <Text fx:id="userName" fill="#189e09" layoutX="142.0" layoutY="295.0" text="usN" wrappingWidth="270.0">
+               <font>
+                  <Font size="14.0" />
+               </font></Text>
+            <Text layoutX="24.0" layoutY="295.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Zalogowano jako:" wrappingWidth="345.0">
+               <font>
+                  <Font size="14.0" />
+               </font></Text>
+            <Text fx:id="error" fill="#eb0b0b" layoutX="119.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="256.13671875">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Text>
+            <TextArea fx:id="receiverName" layoutX="85.0" layoutY="112.0" prefHeight="27.0" prefWidth="327.0" promptText="Nazwa adresata">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </TextArea>
          </children>
       </AnchorPane>
    </bottom>
    <center>
       <TableView fx:id="loggedUsers" prefHeight="372.0" prefWidth="394.0" BorderPane.alignment="CENTER">
         <columns>
-          <TableColumn prefWidth="404.0" text="Zalogowani użytkownicy" />
+          <TableColumn fx:id="logins" prefWidth="498.0" text="Zalogowani użytkownicy">
+              <cellValueFactory>
+                  <PropertyValueFactory property="login" />
+              </cellValueFactory>
+          </TableColumn>
         </columns>
+          <sortOrder>
+              <fx:reference source="logins" />
+          </sortOrder>
       </TableView>
    </center>
 </BorderPane>

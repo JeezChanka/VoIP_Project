@@ -20,7 +20,7 @@ public class ClientNetHandler {
         Session session = Server.getServer().currentSession();
 
         if (session.isEncryptionEnabled()) {
-            session.sendCommand("FIRECHAT", "ERROR");
+            session.sendCommand("WINDYTALKS", "ERROR");
             return;
         }
 
@@ -35,11 +35,11 @@ public class ClientNetHandler {
             byte[] encryptedAesKey = RsaUtils.encrypt(aesKey.getEncoded(), rsaPublicKey);
             String encodedEncryptedAesKey = Base64.getEncoder().encodeToString(encryptedAesKey);
 
-            session.sendCommand("FIRECHAT", encodedEncryptedAesKey);
+            session.sendCommand("WINDYTALKS", encodedEncryptedAesKey);
             session.enableEncryption(aesKey);
         }
         else {
-            session.sendCommand("FIRECHAT", "ERROR");
+            session.sendCommand("WINDYTALKS", "ERROR");
         }
     }
 

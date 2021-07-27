@@ -32,7 +32,7 @@ public class Server {
     private final UserService userService = new UserService();
 
     private Server() {
-        commands.put("FIRECHAT", clientNetHandler::handleConnect);
+        commands.put("WINDYTALKS", clientNetHandler::handleConnect);
         commands.put("LOGIN", clientNetHandler::handleLogin);
         commands.put("LOGOUT", clientNetHandler::handleLogout);
         commands.put("REGISTER", clientNetHandler::handleRegister);
