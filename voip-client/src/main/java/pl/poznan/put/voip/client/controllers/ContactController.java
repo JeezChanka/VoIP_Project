@@ -65,6 +65,10 @@ public class ContactController implements Controller {
                 handleUsers(args);
                 break;
             }
+            case "CALL": {
+                handleCall(args);
+                break;
+            }
         }
     }
 
@@ -119,8 +123,12 @@ public class ContactController implements Controller {
         }
     }
 
+    private void handleCall(String... args) {
+        Client.getClient().displayNewWindow("Połączenie przychodzące", "incomingCallView");
+    }
+
     @FXML
     void callControl(ActionEvent event) {
-
+        Client.getClient().displayNewWindow("Łączenie z adresatem", "passwordView");
     }
 }

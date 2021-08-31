@@ -5,12 +5,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="300.0"
-            xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="pl.poznan.put.voip.client.controllers.IncomingCallController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.poznan.put.voip.client.controllers.IncomingCallController">
    <children>
-      <Text fx:id="userName" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nazwa użytkownika" textAlignment="CENTER" wrappingWidth="300.0">
+      <Text fx:id="userName" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="300.0">
          <font>
             <Font size="24.0" />
          </font>
