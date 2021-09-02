@@ -47,6 +47,9 @@ public class Client {
         commands.put("CHANGEPASS", serverNetHandler::handleChangePassword);
         commands.put("MESSAGE", serverNetHandler::handleMessage);
         commands.put("USERS", serverNetHandler::handleUsers);
+        commands.put("INCOMINGCALL", serverNetHandler::handleIncomingCall);
+        commands.put("REQUESTEDCALLANSW", serverNetHandler::handleRequestedCallAnsw);
+        commands.put("INCOMINGCALLNEGATE", serverNetHandler::handleIncomingCallNegate);
     }
 
     public static void init(Stage stage, Scene scene, Controller controller) {

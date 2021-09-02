@@ -39,6 +39,9 @@ public class Server {
         commands.put("CHANGEPASS", clientNetHandler::handleChangePassword);
         commands.put("MESSAGE", clientNetHandler::handleMessage);
         commands.put("KEEPALIVE", clientNetHandler::handleKeepAlive);
+        commands.put("REQUESTCALL", clientNetHandler::handleRequestCall);
+        commands.put("REQUESTEDCALL", clientNetHandler::handleRequestedCall);
+        commands.put("INCOMINGCALLANSW", clientNetHandler::handleIncomingCallAnsw);
     }
 
     public void start(String[] args) throws Exception {

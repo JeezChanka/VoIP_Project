@@ -1,0 +1,75 @@
+[C] - client request
+[S] - server request
+
+Sending and receiving encrypted command pattern
+<base64 encoded IV vector> <base64 encoded AES encrypted command>
+
+[C] Keep alive
+KEEPALIVE
+
+[C] Connecting to server
+WINDYTALKS <base64 encoded RSA public key>
+- WINDYTALKS <base64 encoded RSA encrypted AES key>
+- WINDYTALKS ERROR
+
+[C] Logging in
+LOGIN <login> <password>
+- LOGIN OK
+- LOGIN ALREADY_LOGGED_IN
+- LOGIN INVALID_DATA
+- LOGIN ERROR
+
+[C] Register
+REGISTER <login> <password>
+- REGISTER OK
+- REGISTER ALREADY_EXISTS
+- REGISTER INVALID_DATA
+- REGISTER ERROR
+
+[C] Change password
+CHANGEPASS <prevPassword> <password>
+- CHANGEPASS OK
+- CHANGEPASS INVALID_DATA
+- CHANGEPASS ERROR
+
+[C] Logging out
+LOGOUT
+- LOGOUT OK
+- LOGOUT NOT_LOGGED_IN
+- LOGOUT ERROR
+
+[C] Send call request
+REQUESTCALL <receiverName>
+- REQUESTCALL OK
+- REQUESTCALL ERROR
+- REQUESTCALL BUSY
+
+[C] Negate call request
+REQUESTEDCALL NEGATE
+- REQUESTEDCALL OK
+- REQUESTEDCALL ERROR
+
+[S] Requested call answer
+REQUESTEDCALLANSW <ACCEPT/DECLINE>
+- REQUESTEDCALLANSW OK
+- REQUESTEDCALLANSW ERROR
+
+[S] Send incoming call request
+INCOMINGCALL <senderName>
+- INCOMINGCALL OK
+- INCOMINGCALL ERROR
+
+[C] Answer incoming call
+INCOMINGCALLANSW <ACCEPT/DECLINE>
+- INCOMINGCALLANSW OK
+- INCOMINGCALLANSW ERROR
+
+[S] Negate incoming call request
+INCOMINGCALLNEGATE
+- INCOMINGCALLNEGATE OK
+- INCOMINGCALLNEGATE ERROR
+
+[S] Update users list
+USERS INIT <login list args ...>
+USERS JOINED <login>
+USERS LEFT <login>

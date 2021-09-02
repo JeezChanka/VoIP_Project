@@ -33,7 +33,21 @@ public class ServerNetHandler {
     }
 
     public void handleUsers(String... args) {
+
         Client.getClient().currentController().onResponse("USERS", args);
+    }
+
+    public void handleIncomingCall(String... args) {
+
+        Client.getClient().currentController().onResponse("INCOMINGCALL", args);
+    }
+
+    public void handleRequestedCallAnsw(String... args) {
+        Client.getClient().currentController().onResponse("REQUESTEDCALLANSW", args);
+    }
+
+    public void handleIncomingCallNegate(String... args) {
+        Client.getClient().currentController().onResponse("INCOMINGCALLNEGATE", args);
     }
 
 }

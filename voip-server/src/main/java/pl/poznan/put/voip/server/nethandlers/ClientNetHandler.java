@@ -192,4 +192,36 @@ public class ClientNetHandler {
         }
     }
 
+    public void handleRequestCall(String... args) {
+        UserService us = Server.getServer().getUserService();
+        Session session = Server.getServer().currentSession();
+
+        if (!session.isEncryptionEnabled()) {
+            session.sendCommand("REQUESTCALL", "ERROR");
+            return;
+        }
+
+    }
+
+    public void handleRequestedCall(String... args) {
+        UserService us = Server.getServer().getUserService();
+        Session session = Server.getServer().currentSession();
+
+        if (!session.isEncryptionEnabled()) {
+            session.sendCommand("REQUESTEDCALL", "ERROR");
+            return;
+        }
+
+    }
+
+    public void handleIncomingCallAnsw(String... args) {
+        UserService us = Server.getServer().getUserService();
+        Session session = Server.getServer().currentSession();
+
+        if (!session.isEncryptionEnabled()) {
+            session.sendCommand("INCOMINGCALLANSW", "ERROR");
+            return;
+        }
+
+    }
 }
