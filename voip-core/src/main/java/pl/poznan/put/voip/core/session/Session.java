@@ -10,6 +10,11 @@ import java.util.List;
 public class Session {
 
     private String login = null;
+
+    public SocketWrapper getSocket() {
+        return socket;
+    }
+
     private final SocketWrapper socket;
 
     public Session(Socket socket) {

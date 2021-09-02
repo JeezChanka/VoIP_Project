@@ -112,28 +112,6 @@ public class ClientNetHandler {
         }
     }
 
-    public void handleMessage(String... args) {
-        UserService us = Server.getServer().getUserService();
-        Session session = Server.getServer().currentSession();
-
-        if (!session.isEncryptionEnabled()) {
-            session.sendCommand("MESSAGE", "ERROR");
-            return;
-        }
-
-        if (session.isLoggedIn() && args.length == 1) {
-            String message = args[0];
-
-            if (message.isEmpty()) {
-                return;
-            }
-
-            for (Session targetSession : us) {
-                targetSession.sendCommand("MESSAGE", session.getLogin(), message);
-            }
-        }
-    }
-
     public void handleRegister(String... args) {
         UserService us = Server.getServer().getUserService();
         Session session = Server.getServer().currentSession();
@@ -203,12 +181,45 @@ public class ClientNetHandler {
 
     }
 
-    public void handleRequestedCall(String... args) {
+    public void handleRequestedCallNegate(String... args) {
         UserService us = Server.getServer().getUserService();
         Session session = Server.getServer().currentSession();
 
         if (!session.isEncryptionEnabled()) {
-            session.sendCommand("REQUESTEDCALL", "ERROR");
+            session.sendCommand("REQUESTEDCALLNEGATE", "ERROR");
+            return;
+        }
+
+    }
+
+    public void handleIncomingCall(String... args) {
+        UserService us = Server.getServer().getUserService();
+        Session session = Server.getServer().currentSession();
+
+        if (!session.isEncryptionEnabled()) {
+            session.sendCommand("INCOMINGCALL", "ERROR");
+            return;
+        }
+
+    }
+
+    public void handleRequestedCallAnsw(String... args) {
+        UserService us = Server.getServer().getUserService();
+        Session session = Server.getServer().currentSession();
+
+        if (!session.isEncryptionEnabled()) {
+            session.sendCommand("REQUESTEDCALLANSW", "ERROR");
+            return;
+        }
+
+    }
+
+    public void handleIncomingCallNegate(String... args) {
+        UserService us = Server.getServer().getUserService();
+        Session session = Server.getServer().currentSession();
+
+        if (!session.isEncryptionEnabled()) {
+            session.sendCommand("INCOMINGCALLNEGATE", "ERROR");
             return;
         }
 

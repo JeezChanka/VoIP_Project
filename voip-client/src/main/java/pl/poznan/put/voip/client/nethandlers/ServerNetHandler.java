@@ -38,16 +38,38 @@ public class ServerNetHandler {
     }
 
     public void handleIncomingCall(String... args) {
-
         Client.getClient().currentController().onResponse("INCOMINGCALL", args);
     }
 
+    public void handleRequestCall(String... args) {
+        Client.getClient().currentController().onResponse("REQUESTCALL", args);
+    }
+
     public void handleRequestedCallAnsw(String... args) {
-        Client.getClient().currentController().onResponse("REQUESTEDCALLANSW", args);
+        Controller subController = Client.getClient().currentSubController();
+        if (subController == null) return;
+
+        subController.onResponse("REQUESTEDCALLANSW", args);
+    }
+
+    public void handleRequestedCallNegate(String... args) {
+        Controller subController = Client.getClient().currentSubController();
+        if (subController == null) return;
+
+        subController.onResponse("REQUESTEDCALLNEGATE", args);
     }
 
     public void handleIncomingCallNegate(String... args) {
-        Client.getClient().currentController().onResponse("INCOMINGCALLNEGATE", args);
+        Controller subController = Client.getClient().currentSubController();
+        if (subController == null) return;
+
+        subController.onResponse("INCOMINGCALLNEGATE", args);
     }
 
+    public void handleIncomingCallAnsw(String... args) {
+        Controller subController = Client.getClient().currentSubController();
+        if (subController == null) return;
+
+        subController.onResponse("INCOMINGCALLANSW", args);
+    }
 }

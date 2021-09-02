@@ -54,6 +54,14 @@ public class ContactController implements Controller {
         }
     }
 
+    @FXML
+    void callControl(ActionEvent event) {
+        String port = "24444";//TODO pobrać port z socketa
+
+        String receiver = receiverName.getText();
+        Client.getClient().currentSession().sendCommand("REQUESTCALL", receiver, port);
+    }
+
     @Override
     public void onResponse(String command, String... args) {
         switch (command) {
@@ -65,8 +73,12 @@ public class ContactController implements Controller {
                 handleUsers(args);
                 break;
             }
-            case "CALL": {
-                handleCall(args);
+            case "INCOMINGCALL": {
+                handleIncomingCall(args);
+                break;
+            }
+            case "REQUESTCALL": {
+                handleRequestCall(args);
                 break;
             }
         }
@@ -123,12 +135,30 @@ public class ContactController implements Controller {
         }
     }
 
-    private void handleCall(String... args) {
+    private void handleIncomingCall(String... args) {
+        String sender = args[0];
+
         Client.getClient().displayNewWindow("Połączenie przychodzące", "incomingCallView");
+        IncomingCallController incoming = (IncomingCallController) Client.getClient().currentSubController();
+        incoming.setUserName(sender);
     }
 
-    @FXML
-    void callControl(ActionEvent event) {
-        Client.getClient().displayNewWindow("Łączenie z adresatem", "passwordView");
+    private void handleRequestCall(String... args) {
+        if (args.length == 1) {
+            String result = args[0];
+            switch (result) {
+                case "OK": {
+                    Client.getClient().displayNewWindow("Dzwonienie", "requestCallView");
+                    RequestCallController request = (RequestCallController) Client.getClient().currentSubController();
+                    request.setUserName(receiverName.getText());
+                }
+                case "BUSY": {
+                    error.setText("Użytkownik zajęty!");
+                }
+                case "ERROR": {
+                    error.setText("Nieoczekiwany błąd!");
+                }
+            }
+        }
     }
 }

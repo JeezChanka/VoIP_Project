@@ -48,8 +48,11 @@ public class Client {
         commands.put("MESSAGE", serverNetHandler::handleMessage);
         commands.put("USERS", serverNetHandler::handleUsers);
         commands.put("INCOMINGCALL", serverNetHandler::handleIncomingCall);
+        commands.put("REQUESTCALL", serverNetHandler::handleRequestCall);
+        commands.put("INCOMINGCALLANSW", serverNetHandler::handleIncomingCallAnsw);
         commands.put("REQUESTEDCALLANSW", serverNetHandler::handleRequestedCallAnsw);
         commands.put("INCOMINGCALLNEGATE", serverNetHandler::handleIncomingCallNegate);
+        commands.put("REQUESTEDCALLNEGATE", serverNetHandler::handleRequestedCallNegate);
     }
 
     public static void init(Stage stage, Scene scene, Controller controller) {

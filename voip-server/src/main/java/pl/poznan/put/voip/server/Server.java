@@ -4,6 +4,7 @@ import pl.poznan.put.voip.core.commands.CommandHandler;
 import pl.poznan.put.voip.core.utils.Logs;
 import pl.poznan.put.voip.core.session.Session;
 import pl.poznan.put.voip.server.nethandlers.ClientNetHandler;
+import pl.poznan.put.voip.server.services.CallService;
 import pl.poznan.put.voip.server.threads.ClientThread;
 import pl.poznan.put.voip.server.services.DatabaseService;
 import pl.poznan.put.voip.server.services.UserService;
@@ -30,6 +31,7 @@ public class Server {
 
     private final DatabaseService databaseService = new DatabaseService();
     private final UserService userService = new UserService();
+    private final CallService callService = new CallService();
 
     private Server() {
         commands.put("WINDYTALKS", clientNetHandler::handleConnect);
@@ -37,11 +39,13 @@ public class Server {
         commands.put("LOGOUT", clientNetHandler::handleLogout);
         commands.put("REGISTER", clientNetHandler::handleRegister);
         commands.put("CHANGEPASS", clientNetHandler::handleChangePassword);
-        commands.put("MESSAGE", clientNetHandler::handleMessage);
         commands.put("KEEPALIVE", clientNetHandler::handleKeepAlive);
+        commands.put("INCOMINGCALL", clientNetHandler::handleIncomingCall);
         commands.put("REQUESTCALL", clientNetHandler::handleRequestCall);
-        commands.put("REQUESTEDCALL", clientNetHandler::handleRequestedCall);
         commands.put("INCOMINGCALLANSW", clientNetHandler::handleIncomingCallAnsw);
+        commands.put("REQUESTEDCALLANSW", clientNetHandler::handleRequestedCallAnsw);
+        commands.put("INCOMINGCALLNEGATE", clientNetHandler::handleIncomingCallNegate);
+        commands.put("REQUESTEDCALLNEGATE", clientNetHandler::handleRequestedCallNegate);
     }
 
     public void start(String[] args) throws Exception {

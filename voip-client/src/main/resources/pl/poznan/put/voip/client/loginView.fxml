@@ -10,9 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="500.0"
-            xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="pl.poznan.put.voip.client.controllers.LoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.poznan.put.voip.client.controllers.LoginController">
    <children>
       <MenuBar prefHeight="25.0" prefWidth="500.0">
         <menus>
@@ -58,7 +56,7 @@
             <Font size="24.0" />
          </font>
       </Button>
-      <Text fx:id="error" fill="#ee1228" layoutX="149.0" layoutY="409.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="201.13671875">
+      <Text fx:id="error" fill="#ee1228" layoutX="41.0" layoutY="411.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="418.13671875">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
