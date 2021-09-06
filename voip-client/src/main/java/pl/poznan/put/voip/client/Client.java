@@ -6,15 +6,19 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import pl.poznan.put.voip.client.threads.CallThread;
 import pl.poznan.put.voip.client.threads.KeepAliveThread;
 import pl.poznan.put.voip.client.nethandlers.ServerNetHandler;
 import pl.poznan.put.voip.client.services.UserService;
+import pl.poznan.put.voip.client.threads.MicroThread;
 import pl.poznan.put.voip.client.utils.Controller;
 import pl.poznan.put.voip.core.commands.CommandHandler;
+import pl.poznan.put.voip.core.session.CallSocketWrapper;
 import pl.poznan.put.voip.core.session.Session;
 import pl.poznan.put.voip.core.utils.Logs;
 
 import java.io.IOException;
+import java.net.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,9 +33,14 @@ public class Client {
     private final ServerNetHandler serverNetHandler = new ServerNetHandler();
 
     private Session currentSession;
+
+
+    private CallSocketWrapper callSocket;
     private Controller currentController;
     private Controller currentSubController;
+
     private Thread keepAliveThread;
+    private MicroThread microThread;
 
     private final UserService userService = new UserService();
 
@@ -53,6 +62,7 @@ public class Client {
         commands.put("REQUESTEDCALLANSW", serverNetHandler::handleRequestedCallAnsw);
         commands.put("INCOMINGCALLNEGATE", serverNetHandler::handleIncomingCallNegate);
         commands.put("REQUESTEDCALLNEGATE", serverNetHandler::handleRequestedCallNegate);
+        commands.put("DISCONNECTEDCALL", serverNetHandler::handleDisconnectedCall);
     }
 
     public static void init(Stage stage, Scene scene, Controller controller) {
@@ -107,12 +117,21 @@ public class Client {
         }
     }
 
-    public synchronized void setCurrentSession(Session session) {
+    public synchronized void setCurrentSession(Session session) throws SocketException {
         this.currentSession = session;
+
+        CallThread runnable = new CallThread(new DatagramSocket());
+        this.callSocket = runnable.getCallSocket();
+
+        new Thread(runnable).start();
     }
 
     public Session currentSession() {
         return currentSession;
+    }
+
+    public synchronized void handleUDP(DatagramPacket packet) {
+
     }
 
     public synchronized void startKeepAliveThread() {
@@ -120,11 +139,39 @@ public class Client {
         keepAliveThread.start();
     }
 
+    public synchronized void startMicroThread() {
+        microThread = new MicroThread();
+        new Thread(microThread).start();
+    }
+
+    public synchronized boolean isMuted() {
+        if(microThread == null) {
+            return true;
+        }
+        return microThread.isSending();
+    }
+
+    public synchronized void stopMicroThread() {
+        if (microThread != null) {
+            microThread.stop();
+            microThread = null;
+        }
+    }
+
+    public synchronized void setMute(boolean muted) {
+        if (microThread != null) {
+            microThread.setSending(!muted);
+        }
+    }
+
     public synchronized void disconnect() {
         if (currentSession != null) {
             try {
                 currentSession.disconnect();
                 currentSession = null;
+
+                callSocket.close();
+                callSocket = null;
 
                 switchTo("connectView");
             } catch (IOException ignored) {}
@@ -151,4 +198,7 @@ public class Client {
         return INSTANCE;
     }
 
+    public CallSocketWrapper getCallSocket() {
+        return callSocket;
+    }
 }

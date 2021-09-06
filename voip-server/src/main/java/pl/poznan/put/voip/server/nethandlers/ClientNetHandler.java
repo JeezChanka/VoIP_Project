@@ -3,6 +3,7 @@ package pl.poznan.put.voip.server.nethandlers;
 import pl.poznan.put.voip.core.session.Session;
 import pl.poznan.put.voip.core.utils.*;
 import pl.poznan.put.voip.server.Server;
+import pl.poznan.put.voip.server.services.CallService;
 import pl.poznan.put.voip.server.services.UserService;
 import pl.poznan.put.voip.core.utils.AesUtils;
 import pl.poznan.put.voip.core.utils.RsaUtils;
@@ -171,7 +172,7 @@ public class ClientNetHandler {
     }
 
     public void handleRequestCall(String... args) {
-        UserService us = Server.getServer().getUserService();
+        CallService cs = Server.getServer().getCallService();
         Session session = Server.getServer().currentSession();
 
         if (!session.isEncryptionEnabled()) {
@@ -179,10 +180,34 @@ public class ClientNetHandler {
             return;
         }
 
+        if (args.length == 2) {
+            String login = args[0];
+            String portS = args[1];
+            int port;
+
+            try {
+                port = Integer.parseInt(portS);
+            } catch (NumberFormatException e)  {
+                session.sendCommand("REQUESTCALL", "ERROR");
+                return;
+            }
+
+            Session tSession = cs.startCall(login, port);
+
+            if (tSession != null) {
+                session.sendCommand("REQUESTCALL", "OK");
+                tSession.sendCommand("INCOMINGCALL", session.getLogin());
+            } else {
+                session.sendCommand("REQUESTCALL", "BUSY");
+            }
+        } else {
+            session.sendCommand("REQUESTCALL", "ERROR");
+            return;
+        }
     }
 
     public void handleRequestedCallNegate(String... args) {
-        UserService us = Server.getServer().getUserService();
+        CallService cs = Server.getServer().getCallService();
         Session session = Server.getServer().currentSession();
 
         if (!session.isEncryptionEnabled()) {
@@ -190,43 +215,33 @@ public class ClientNetHandler {
             return;
         }
 
+        Session tSession = cs.declineCall();
+
+        if(tSession != null) {
+            tSession.sendCommand("INCOMINGCALLNEGATE");
+        }
+        session.sendCommand("REQUESTEDCALLNEGATE", "OK");
     }
 
-    public void handleIncomingCall(String... args) {
-        UserService us = Server.getServer().getUserService();
+    public void handleDisconnectCall(String... args) {
+        CallService cs = Server.getServer().getCallService();
         Session session = Server.getServer().currentSession();
 
         if (!session.isEncryptionEnabled()) {
-            session.sendCommand("INCOMINGCALL", "ERROR");
+            session.sendCommand("DISCONNECTCALL", "ERROR");
             return;
         }
 
-    }
+        Session tSession = cs.declineCall();
 
-    public void handleRequestedCallAnsw(String... args) {
-        UserService us = Server.getServer().getUserService();
-        Session session = Server.getServer().currentSession();
-
-        if (!session.isEncryptionEnabled()) {
-            session.sendCommand("REQUESTEDCALLANSW", "ERROR");
-            return;
+        if(tSession != null) {
+            tSession.sendCommand("DISCONNECTEDCALL");
         }
-
-    }
-
-    public void handleIncomingCallNegate(String... args) {
-        UserService us = Server.getServer().getUserService();
-        Session session = Server.getServer().currentSession();
-
-        if (!session.isEncryptionEnabled()) {
-            session.sendCommand("INCOMINGCALLNEGATE", "ERROR");
-            return;
-        }
-
+        session.sendCommand("DISCONNECTCALL", "OK");
     }
 
     public void handleIncomingCallAnsw(String... args) {
-        UserService us = Server.getServer().getUserService();
+        CallService cs = Server.getServer().getCallService();
         Session session = Server.getServer().currentSession();
 
         if (!session.isEncryptionEnabled()) {
@@ -234,5 +249,38 @@ public class ClientNetHandler {
             return;
         }
 
+        if (args.length >= 1 && args.length <= 2) {
+            String answ = args[0];
+
+            if (answ.equals("ACCEPT") && args.length == 2) {
+                String portS = args[1];
+                int port;
+
+                try {
+                    port = Integer.parseInt(portS);
+                } catch (NumberFormatException e)  {
+                    session.sendCommand("INCOMINGCALLANSW", "ERROR");
+                    return;
+                }
+
+                Session tSession = cs.acceptCall(port);
+
+                if(tSession != null) {
+                    tSession.sendCommand("REQUESTEDCALLANSW", "ACCEPT");
+                }
+
+            } else if (answ.equals("DECLINE")) {
+                Session tSession = cs.declineCall();
+
+                if(tSession != null) {
+                    tSession.sendCommand("REQUESTEDCALLANSW", "DECLINE");
+                }
+            } else {
+                session.sendCommand("INCOMINGCALLANSW", "ERROR");
+            }
+        } else {
+            session.sendCommand("INCOMINGCALLANSW", "ERROR");
+            return;
+        }
     }
 }

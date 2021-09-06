@@ -39,8 +39,10 @@ public class RequestCallController implements Controller {
                 case "OK": {
                     Stage stage = (Stage) userName.getScene().getWindow();
                     stage.close();
+                    break;
                 }
                 case "ERROR":
+                    break;
             }
         }
     }
@@ -48,15 +50,25 @@ public class RequestCallController implements Controller {
     private void handleRequestedCallAnsw(String... args) {
         if (args.length == 1) {
             String result = args[0];
+
+            Stage stage = (Stage) userName.getScene().getWindow();
+            stage.close();
+
             switch (result) {
                 case "ACCEPT": {
+                    ContactController lobby = (ContactController) Client.getClient().currentController();
+                    String user = lobby.getReceiverName();
 
-                    Stage stage = (Stage) userName.getScene().getWindow();
-                    stage.close();
+                    Client.getClient().switchTo("callView");
+                    CallController callSite = (CallController) Client.getClient().currentController();
+                    callSite.setUsername(user);
+
+                    Client.getClient().startMicroThread();
+                    break;
                 }
                 case "DECLINE": {
-                    Stage stage = (Stage) userName.getScene().getWindow();
-                    stage.close();
+                    //TODO errortext
+                    break;
                 }
             }
         }

@@ -12,6 +12,8 @@ import pl.poznan.put.voip.client.utils.Controller;
 import pl.poznan.put.voip.client.utils.User;
 import pl.poznan.put.voip.core.session.Session;
 
+import java.lang.reflect.Array;
+
 public class ContactController implements Controller {
     @FXML
     private Text callingUser;
@@ -24,6 +26,10 @@ public class ContactController implements Controller {
 
     @FXML
     private TableView<User> loggedUsers;
+
+    public String getReceiverName() {
+        return receiverName.getText();
+    }
 
     @FXML
     private TextArea receiverName;
@@ -56,10 +62,16 @@ public class ContactController implements Controller {
 
     @FXML
     void callControl(ActionEvent event) {
-        String port = "24444";//TODO pobrać port z socketa
+        String port = String.valueOf(Client.getClient().getCallSocket().getSocket().getPort());
 
         String receiver = receiverName.getText();
-        Client.getClient().currentSession().sendCommand("REQUESTCALL", receiver, port);
+        for (User user : loggedUsers.getItems()) {
+            if(user.getLogin().equals(receiver) && !userName.getText().equals(receiver)) {
+                Client.getClient().currentSession().sendCommand("REQUESTCALL", receiver, port);
+                return;
+            }
+        }
+        error.setText("Zła nazwa użytkownika!");
     }
 
     @Override
@@ -151,12 +163,15 @@ public class ContactController implements Controller {
                     Client.getClient().displayNewWindow("Dzwonienie", "requestCallView");
                     RequestCallController request = (RequestCallController) Client.getClient().currentSubController();
                     request.setUserName(receiverName.getText());
+                    break;
                 }
                 case "BUSY": {
                     error.setText("Użytkownik zajęty!");
+                    break;
                 }
                 case "ERROR": {
                     error.setText("Nieoczekiwany błąd!");
+                    break;
                 }
             }
         }

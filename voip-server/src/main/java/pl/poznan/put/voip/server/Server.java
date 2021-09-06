@@ -1,15 +1,18 @@
 package pl.poznan.put.voip.server;
 
 import pl.poznan.put.voip.core.commands.CommandHandler;
+import pl.poznan.put.voip.core.session.CallSocketWrapper;
 import pl.poznan.put.voip.core.utils.Logs;
 import pl.poznan.put.voip.core.session.Session;
 import pl.poznan.put.voip.server.nethandlers.ClientNetHandler;
 import pl.poznan.put.voip.server.services.CallService;
+import pl.poznan.put.voip.server.threads.CallThread;
 import pl.poznan.put.voip.server.threads.ClientThread;
 import pl.poznan.put.voip.server.services.DatabaseService;
 import pl.poznan.put.voip.server.services.UserService;
 
 import java.io.IOException;
+import java.net.DatagramPacket;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
@@ -24,6 +27,9 @@ public class Server {
     private volatile boolean running = false;
     private ServerSocket serverSocket;
 
+
+    private CallSocketWrapper callWrapper;
+
     private Session currentSession;
 
     private final Map<String, CommandHandler> commands = new HashMap<>();
@@ -31,6 +37,11 @@ public class Server {
 
     private final DatabaseService databaseService = new DatabaseService();
     private final UserService userService = new UserService();
+
+    public CallService getCallService() {
+        return callService;
+    }
+
     private final CallService callService = new CallService();
 
     private Server() {
@@ -40,11 +51,9 @@ public class Server {
         commands.put("REGISTER", clientNetHandler::handleRegister);
         commands.put("CHANGEPASS", clientNetHandler::handleChangePassword);
         commands.put("KEEPALIVE", clientNetHandler::handleKeepAlive);
-        commands.put("INCOMINGCALL", clientNetHandler::handleIncomingCall);
         commands.put("REQUESTCALL", clientNetHandler::handleRequestCall);
         commands.put("INCOMINGCALLANSW", clientNetHandler::handleIncomingCallAnsw);
-        commands.put("REQUESTEDCALLANSW", clientNetHandler::handleRequestedCallAnsw);
-        commands.put("INCOMINGCALLNEGATE", clientNetHandler::handleIncomingCallNegate);
+        commands.put("DISCONNECTCALL", clientNetHandler::handleDisconnectCall);
         commands.put("REQUESTEDCALLNEGATE", clientNetHandler::handleRequestedCallNegate);
     }
 
@@ -60,6 +69,11 @@ public class Server {
         try {
             serverSocket = new ServerSocket(PORT);
 
+            CallThread runnable = new CallThread();
+            callWrapper = runnable.getSocket();
+
+            new Thread(runnable).start();
+
             Logs.log("Server started");
             while (running) {
                 final Socket clientSocket = serverSocket.accept();
@@ -70,6 +84,8 @@ public class Server {
             }
         } catch (IOException e) {
             e.printStackTrace();
+            running = false;
+            callWrapper.close();
         }
 
         databaseService.disconnect();
@@ -103,6 +119,10 @@ public class Server {
         }
     }
 
+    public synchronized void handleUDP(DatagramPacket packet) {
+        callService.forwardPacket(packet);
+    }
+
     public synchronized void runWithSession(Session session, Runnable runnable) {
         this.currentSession = session;
         runnable.run();
@@ -129,4 +149,7 @@ public class Server {
         return userService;
     }
 
+    public CallSocketWrapper getCallWrapper() {
+        return callWrapper;
+    }
 }

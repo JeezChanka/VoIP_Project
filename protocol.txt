@@ -38,8 +38,15 @@ LOGOUT
 - LOGOUT NOT_LOGGED_IN
 - LOGOUT ERROR
 
+[S] Update users list
+USERS INIT <login list args ...>
+USERS JOINED <login>
+USERS LEFT <login>
+
+---CALLING---
+
 [C] Send call request
-REQUESTCALL <receiverName>
+REQUESTCALL <receiverName> <port>
 - REQUESTCALL OK
 - REQUESTCALL ERROR
 - REQUESTCALL BUSY
@@ -58,14 +65,13 @@ REQUESTEDCALLANSW <ACCEPT/DECLINE>
 INCOMINGCALL <senderName>
 
 [C] Answer incoming call
-INCOMINGCALLANSW <ACCEPT/DECLINE>
+INCOMINGCALLANSW <ACCEPT/DECLINE> <port (if accepted)>
 - INCOMINGCALLANSW OK
 - INCOMINGCALLANSW ERROR
 
 [S] Negate incoming call request
 INCOMINGCALLNEGATE
 
-[S] Update users list
-USERS INIT <login list args ...>
-USERS JOINED <login>
-USERS LEFT <login>
+DISCONNECTCALL
+
+DISCONNECTEDCALL

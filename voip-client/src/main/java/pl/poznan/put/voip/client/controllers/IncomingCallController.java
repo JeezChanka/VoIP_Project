@@ -14,11 +14,13 @@ public class IncomingCallController implements Controller {
 
         @FXML
         void accept(ActionEvent event) {
-                String port = "24444";//TODO pobrać port z socketa
+                String port = String.valueOf(Client.getClient().getCallSocket().getSocket().getPort());
 
                 Client.getClient().currentSession().sendCommand("INCOMINGCALLANSW", "ACCEPT", port);
                 ((Stage) ((Button) event.getSource()).getScene().getWindow()).close();
                 Client.getClient().switchTo("callView");
+                CallController callSite = (CallController) Client.getClient().currentController();
+                callSite.setUsername(userName.getText());
         }
 
         @FXML
@@ -57,6 +59,7 @@ public class IncomingCallController implements Controller {
                                 case "OK": {
                                         Stage stage = (Stage) userName.getScene().getWindow();
                                         stage.close();
+                                        Client.getClient().startMicroThread();
                                 }
                                 case "ERROR":
                         }

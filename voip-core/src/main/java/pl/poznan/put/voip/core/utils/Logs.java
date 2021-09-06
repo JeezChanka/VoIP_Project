@@ -2,7 +2,7 @@ package pl.poznan.put.voip.core.utils;
 
 public class Logs {
 
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
 
     public static synchronized void log(String s) {
         if (DEBUG) System.out.println(s);

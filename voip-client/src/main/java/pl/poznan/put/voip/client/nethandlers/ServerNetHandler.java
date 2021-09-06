@@ -33,7 +33,6 @@ public class ServerNetHandler {
     }
 
     public void handleUsers(String... args) {
-
         Client.getClient().currentController().onResponse("USERS", args);
     }
 
@@ -66,10 +65,18 @@ public class ServerNetHandler {
         subController.onResponse("INCOMINGCALLNEGATE", args);
     }
 
+    public void handleCanceledCall(String... args) {
+        Client.getClient().currentController().onResponse("DISCONNECTEDCALL", args);
+    }
+
     public void handleIncomingCallAnsw(String... args) {
         Controller subController = Client.getClient().currentSubController();
         if (subController == null) return;
 
         subController.onResponse("INCOMINGCALLANSW", args);
+    }
+
+    public void handleDisconnectedCall(String... args) {
+        Client.getClient().currentController().onResponse("DISCONNECTEDCALL", args);
     }
 }
