@@ -33,6 +33,11 @@ public class Server {
     private Session currentSession;
 
     private final Map<String, CommandHandler> commands = new HashMap<>();
+
+    public ClientNetHandler getClientNetHandler() {
+        return clientNetHandler;
+    }
+
     private final ClientNetHandler clientNetHandler = new ClientNetHandler();
 
     private final DatabaseService databaseService = new DatabaseService();

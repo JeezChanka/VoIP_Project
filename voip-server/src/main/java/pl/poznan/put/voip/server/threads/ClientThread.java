@@ -47,12 +47,14 @@ public class ClientThread implements Runnable {
                         otherSessions.sendCommand("USERS", "LEFT", currentLogin);
                     }
 
-                    Server.getServer().getUserService().logout();
-
                     Session tSession = Server.getServer().getCallService().declineCall();
+
                     if(tSession != null) {
                         tSession.sendCommand("DISCONNECTEDCALL");
+                        Server.getServer().getClientNetHandler().sendUserInit(tSession);
                     }
+
+                    Server.getServer().getUserService().logout();
                 });
 
                 break;

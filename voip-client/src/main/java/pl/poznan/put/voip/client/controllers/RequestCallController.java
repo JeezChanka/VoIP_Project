@@ -67,7 +67,8 @@ public class RequestCallController implements Controller {
                     break;
                 }
                 case "DECLINE": {
-                    //TODO errortext
+                    ContactController contact = (ContactController) Client.getClient().currentController();
+                    contact.setError("Adresat odrzucił połączenie");
                     break;
                 }
             }
@@ -76,5 +77,10 @@ public class RequestCallController implements Controller {
 
     public void setUserName(String userName) {
         this.userName.setText(userName);
+    }
+
+    @Override
+    public void onClose() {
+        Client.getClient().currentSession().sendCommand("REQUESTEDCALLNEGATE");
     }
 }

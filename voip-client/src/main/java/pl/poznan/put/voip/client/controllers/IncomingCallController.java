@@ -14,13 +14,17 @@ public class IncomingCallController implements Controller {
 
         @FXML
         void accept(ActionEvent event) {
-                String port = String.valueOf(Client.getClient().getCallSocket().getSocket().getPort());
+                String port = String.valueOf(Client.getClient().getCallSocket().getSocket().getLocalPort());
 
                 Client.getClient().currentSession().sendCommand("INCOMINGCALLANSW", "ACCEPT", port);
                 ((Stage) ((Button) event.getSource()).getScene().getWindow()).close();
+
                 Client.getClient().switchTo("callView");
+
                 CallController callSite = (CallController) Client.getClient().currentController();
                 callSite.setUsername(userName.getText());
+
+                Client.getClient().startMicroThread();
         }
 
         @FXML
@@ -64,5 +68,10 @@ public class IncomingCallController implements Controller {
                                 case "ERROR":
                         }
                 }
+        }
+
+        @Override
+        public void onClose() {
+                Client.getClient().currentSession().sendCommand("INCOMINGCALLANSW", "DECLINE");
         }
 }

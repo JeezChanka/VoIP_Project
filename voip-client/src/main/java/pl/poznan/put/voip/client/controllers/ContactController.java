@@ -21,6 +21,10 @@ public class ContactController implements Controller {
     @FXML
     private Text userName;
 
+    public void setError(String error) {
+        this.error.setText(error);
+    }
+
     @FXML
     private Text error;
 
@@ -62,7 +66,7 @@ public class ContactController implements Controller {
 
     @FXML
     void callControl(ActionEvent event) {
-        String port = String.valueOf(Client.getClient().getCallSocket().getSocket().getPort());
+        String port = String.valueOf(Client.getClient().getCallSocket().getSocket().getLocalPort());
 
         String receiver = receiverName.getText();
         for (User user : loggedUsers.getItems()) {

@@ -1,6 +1,7 @@
 package pl.poznan.put.voip.server.services;
 
 import pl.poznan.put.voip.core.session.Session;
+import pl.poznan.put.voip.core.utils.Logs;
 import pl.poznan.put.voip.server.Server;
 
 import java.net.DatagramPacket;
@@ -85,7 +86,7 @@ public class CallService {
             if(target.getPort()==-1) return;
 
             DatagramPacket forpacket = new DatagramPacket(sourceData, dataLen, target.getIP(), target.getPort());
-
+            Logs.log("S Port: " + sourcePort + ", T Post: " + target.getPort());
             Server.getServer().getCallWrapper().sendUdpData(forpacket);
             return;
         }

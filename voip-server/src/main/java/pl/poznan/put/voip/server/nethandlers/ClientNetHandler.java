@@ -63,10 +63,7 @@ public class ClientNetHandler {
             session.sendCommand("LOGIN", result);
 
             if (result.equals("OK")) {
-                List<String> initArgs = new LinkedList<>(us.getOnlineUsers().keySet());
-                initArgs.add(0, "INIT");
-
-                session.sendCommand("USERS", initArgs.toArray(new String[] {}));
+                sendUserInit(session);
 
                 for (Session otherSessions : us) {
                     if (otherSessions.getLogin().equals(login)) continue;
@@ -232,12 +229,14 @@ public class ClientNetHandler {
             return;
         }
 
+        sendUserInit(session);
+
         Session tSession = cs.declineCall();
 
         if(tSession != null) {
             tSession.sendCommand("DISCONNECTEDCALL");
+            sendUserInit(tSession);
         }
-        session.sendCommand("DISCONNECTCALL", "OK");
     }
 
     public void handleIncomingCallAnsw(String... args) {
@@ -282,5 +281,14 @@ public class ClientNetHandler {
             session.sendCommand("INCOMINGCALLANSW", "ERROR");
             return;
         }
+    }
+
+    public void sendUserInit(Session s) {
+        UserService us = Server.getServer().getUserService();
+
+        List<String> initArgs = new LinkedList<>(us.getOnlineUsers().keySet());
+        initArgs.add(0, "INIT");
+
+        s.sendCommand("USERS", initArgs.toArray(new String[] {}));
     }
 }

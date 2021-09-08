@@ -2,6 +2,7 @@ package pl.poznan.put.voip.client.threads;
 
 import pl.poznan.put.voip.client.Client;
 import pl.poznan.put.voip.core.session.CallSocketWrapper;
+import pl.poznan.put.voip.core.session.Session;
 import pl.poznan.put.voip.core.utils.Logs;
 
 import javax.sound.sampled.*;
@@ -29,6 +30,10 @@ public class MicroThread implements Runnable {
                     micro.read(sendBuffer,0, CallSocketWrapper.BUFFER_SIZE);
 
                     if(!sending) continue;
+
+                    Session session = Client.getClient().currentSession();
+
+                    if(session == null) break;
 
                     DatagramPacket data = new DatagramPacket
                             (sendBuffer, 0, CallSocketWrapper.BUFFER_SIZE,

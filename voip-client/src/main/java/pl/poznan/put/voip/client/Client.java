@@ -93,7 +93,10 @@ public class Client {
             subStage.setScene(subScene);
             subStage.initOwner(stage);
             subStage.initModality(Modality.WINDOW_MODAL);
-            subStage.setOnCloseRequest((event -> Client.this.currentSubController = null));
+            subStage.setOnCloseRequest((event -> {
+                Client.this.currentSubController.onClose();
+                Client.this.currentSubController = null;
+            }));
             subStage.show();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -148,7 +151,7 @@ public class Client {
         if(microThread == null) {
             return true;
         }
-        return microThread.isSending();
+        return !microThread.isSending();
     }
 
     public synchronized void stopMicroThread() {

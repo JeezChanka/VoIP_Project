@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.text.Text;
 import pl.poznan.put.voip.client.Client;
 import pl.poznan.put.voip.client.utils.Controller;
+import pl.poznan.put.voip.core.utils.Logs;
 
 public class CallController implements Controller {
     @FXML
@@ -27,6 +28,7 @@ public class CallController implements Controller {
     @FXML
     void mute(ActionEvent event) {
         Client.getClient().setMute(!Client.getClient().isMuted());
+        Logs.log("" + Client.getClient().isMuted());
     }
 
     void setUsername(String username) {
@@ -42,5 +44,6 @@ public class CallController implements Controller {
 
     void handleDisconnectedCall(String... args) {
         Client.getClient().switchTo("contactView");
+        Client.getClient().stopMicroThread();
     }
 }
