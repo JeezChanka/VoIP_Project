@@ -42,6 +42,8 @@ LOGOUT
 USERS INIT <login list args ...>
 USERS JOINED <login>
 USERS LEFT <login>
+USERS AVAILABLE <login>
+USER BUSY <login>
 
 ---CALLING---
 
@@ -72,6 +74,8 @@ INCOMINGCALLANSW <ACCEPT/DECLINE> <port (if accepted)>
 [S] Negate incoming call request
 INCOMINGCALLNEGATE
 
+[C] Disconnect from active call
 DISCONNECTCALL
 
+[S] Disconnect second client from call
 DISCONNECTEDCALL

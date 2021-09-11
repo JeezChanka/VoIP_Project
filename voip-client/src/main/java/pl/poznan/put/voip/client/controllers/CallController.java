@@ -18,8 +18,9 @@ public class CallController implements Controller {
     }
 
     @FXML
-    void disconnect(ActionEvent event) {
+    void endCall(ActionEvent event) {
         Client.getClient().currentSession().sendCommand("DISCONNECTCALL");
+        Client.getClient().flushSpeaker();
 
         Client.getClient().switchTo("contactView");
         Client.getClient().stopMicroThread();
@@ -43,6 +44,7 @@ public class CallController implements Controller {
     }
 
     void handleDisconnectedCall(String... args) {
+        Client.getClient().flushSpeaker();
         Client.getClient().switchTo("contactView");
         Client.getClient().stopMicroThread();
     }

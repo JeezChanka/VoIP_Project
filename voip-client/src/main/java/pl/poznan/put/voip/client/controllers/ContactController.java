@@ -3,6 +3,7 @@ package pl.poznan.put.voip.client.controllers;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
@@ -11,10 +12,14 @@ import pl.poznan.put.voip.client.services.UserService;
 import pl.poznan.put.voip.client.utils.Controller;
 import pl.poznan.put.voip.client.utils.User;
 import pl.poznan.put.voip.core.session.Session;
+import pl.poznan.put.voip.core.utils.Logs;
 
 import java.lang.reflect.Array;
 
 public class ContactController implements Controller {
+    @FXML
+    public TableColumn logins;
+
     @FXML
     private Text callingUser;
 
@@ -43,6 +48,8 @@ public class ContactController implements Controller {
         synchronized (Client.getClient()) {
             Session session = Client.getClient().currentSession();
             userName.setText(session.getLogin());
+
+            logins.setSortType(TableColumn.SortType.ASCENDING);
         }
     }
 
@@ -111,15 +118,18 @@ public class ContactController implements Controller {
 
                 for (int i = 1; i < args.length; ++i) {
                     String login = args[i];
-                    userList.add(new User(login));
+                    String status = args[i + 1];
+                    userList.add(new User(login, status));
+                    i++;
                 }
+
                 break;
             }
             case "JOINED": {
                 if (args.length != 2) return;
 
                 String login = args[1];
-                loggedUsers.getItems().add(new User(login));
+                loggedUsers.getItems().add(new User(login, "Dostępny"));
 
                 break;
             }
@@ -131,7 +141,25 @@ public class ContactController implements Controller {
 
                 break;
             }
+            case "BUSY": {
+                if (args.length != 2) return;
+
+                String login = args[1];
+                loggedUsers.getItems().filtered((user) -> user.getLogin().equals(login)).get(0).setStatus("Zajęty");
+
+                break;
+            }
+            case "AVAILABLE": {
+                if (args.length != 2) return;
+
+                String login = args[1];
+                Logs.log(login);
+                loggedUsers.getItems().filtered((user) -> user.getLogin().equals(login)).get(0).setStatus("Dostępny");
+
+                break;
+            }
         }
+
     }
 
     private void handleLogout(String... args) {

@@ -169,6 +169,7 @@ public class ClientNetHandler {
     }
 
     public void handleRequestCall(String... args) {
+        UserService us = Server.getServer().getUserService();
         CallService cs = Server.getServer().getCallService();
         Session session = Server.getServer().currentSession();
 
@@ -194,6 +195,13 @@ public class ClientNetHandler {
             if (tSession != null) {
                 session.sendCommand("REQUESTCALL", "OK");
                 tSession.sendCommand("INCOMINGCALL", session.getLogin());
+
+                for (Session session1 : us) {
+                    if(session1 == session || session1 == tSession) continue;
+
+                    session1.sendCommand("USERS", "BUSY", session.getLogin());
+                    session1.sendCommand("USERS", "BUSY", tSession.getLogin());
+                }
             } else {
                 session.sendCommand("REQUESTCALL", "BUSY");
             }
@@ -204,6 +212,7 @@ public class ClientNetHandler {
     }
 
     public void handleRequestedCallNegate(String... args) {
+        UserService us = Server.getServer().getUserService();
         CallService cs = Server.getServer().getCallService();
         Session session = Server.getServer().currentSession();
 
@@ -218,9 +227,18 @@ public class ClientNetHandler {
             tSession.sendCommand("INCOMINGCALLNEGATE");
         }
         session.sendCommand("REQUESTEDCALLNEGATE", "OK");
+
+        for (Session session1 : us) {
+            if(session1 == session || session1 == tSession) continue;
+
+            session1.sendCommand("USERS", "AVAILABLE", session.getLogin());
+            if (tSession != null)
+                session1.sendCommand("USERS", "AVAILABLE", tSession.getLogin());
+        }
     }
 
     public void handleDisconnectCall(String... args) {
+        UserService us = Server.getServer().getUserService();
         CallService cs = Server.getServer().getCallService();
         Session session = Server.getServer().currentSession();
 
@@ -235,11 +253,23 @@ public class ClientNetHandler {
 
         if(tSession != null) {
             tSession.sendCommand("DISCONNECTEDCALL");
+
             sendUserInit(tSession);
+            session.sendCommand("USERS", "AVAILABLE", session.getLogin());
+            session.sendCommand("USERS", "AVAILABLE", tSession.getLogin());
+
+            for (Session session1 : us) {
+                if(session1 == session || session1 == tSession) continue;
+
+                session1.sendCommand("USERS", "AVAILABLE", session.getLogin());
+                session1.sendCommand("USERS", "AVAILABLE", tSession.getLogin());
+            }
         }
+
     }
 
     public void handleIncomingCallAnsw(String... args) {
+        UserService us = Server.getServer().getUserService();
         CallService cs = Server.getServer().getCallService();
         Session session = Server.getServer().currentSession();
 
@@ -268,11 +298,19 @@ public class ClientNetHandler {
                     tSession.sendCommand("REQUESTEDCALLANSW", "ACCEPT");
                 }
 
+
             } else if (answ.equals("DECLINE")) {
                 Session tSession = cs.declineCall();
 
                 if(tSession != null) {
                     tSession.sendCommand("REQUESTEDCALLANSW", "DECLINE");
+                }
+                for (Session session1 : us) {
+                    if(session1 == session || session1 == tSession) continue;
+
+                    session1.sendCommand("USERS", "AVAILABLE", session.getLogin());
+                    if (tSession != null)
+                        session1.sendCommand("USERS", "AVAILABLE", tSession.getLogin());
                 }
             } else {
                 session.sendCommand("INCOMINGCALLANSW", "ERROR");
@@ -285,8 +323,12 @@ public class ClientNetHandler {
 
     public void sendUserInit(Session s) {
         UserService us = Server.getServer().getUserService();
-
-        List<String> initArgs = new LinkedList<>(us.getOnlineUsers().keySet());
+        CallService cs = Server.getServer().getCallService();//us.getOnlineUsers().keySet()
+        List<String> initArgs = new LinkedList<>();
+        us.getOnlineUsers().forEach((login, session) -> {
+            initArgs.add(login);
+            initArgs.add(cs.isBusy(session) ? "Zajęty" : "Dostępny");
+        });
         initArgs.add(0, "INIT");
 
         s.sendCommand("USERS", initArgs.toArray(new String[] {}));

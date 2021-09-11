@@ -55,6 +55,13 @@ public class ClientThread implements Runnable {
                     }
 
                     Server.getServer().getUserService().logout();
+
+                    for (Session session1 : us) {
+                        if(session1 == session || session1 == tSession) continue;
+
+                        if (tSession != null)
+                            session1.sendCommand("USERS", "AVAILABLE", tSession.getLogin());
+                    }
                 });
 
                 break;

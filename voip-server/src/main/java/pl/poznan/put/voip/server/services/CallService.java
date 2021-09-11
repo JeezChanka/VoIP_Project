@@ -4,6 +4,7 @@ import pl.poznan.put.voip.core.session.Session;
 import pl.poznan.put.voip.core.utils.Logs;
 import pl.poznan.put.voip.server.Server;
 
+import javax.swing.*;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -17,6 +18,10 @@ public class CallService {
 
     public CallService() {
 
+    }
+
+    public boolean isBusy(Session session) {
+        return activeCalls.stream().anyMatch(call -> call.isAssociated(session));
     }
 
     public Session startCall(String username, int port) {

@@ -10,13 +10,15 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 
 
-public class CallThread implements Runnable {
+public class SpeakerThread implements Runnable {
     public static final AudioFormat AUDIO_FORMAT =
             new AudioFormat (8000.0F, 16, 2, true, false);
 
     private final CallSocketWrapper callSocket;
 
-    public CallThread(DatagramSocket socket) {
+    private SourceDataLine speaker = null;
+
+    public SpeakerThread(DatagramSocket socket) {
         this.callSocket = new CallSocketWrapper(socket);
     }
 
@@ -25,8 +27,10 @@ public class CallThread implements Runnable {
         Client client = Client.getClient();
 
         try (SourceDataLine speaker = AudioSystem.getSourceDataLine(AUDIO_FORMAT)) {
+            this.speaker = speaker;
             speaker.open(AUDIO_FORMAT);
             speaker.start();
+            clean();
 
             for (;;) {
                 try {
@@ -45,6 +49,10 @@ public class CallThread implements Runnable {
         } catch (LineUnavailableException e) {
             e.printStackTrace();
         }
+    }
+
+    public synchronized void clean() {
+        speaker.flush();
     }
 
     public CallSocketWrapper getCallSocket() {

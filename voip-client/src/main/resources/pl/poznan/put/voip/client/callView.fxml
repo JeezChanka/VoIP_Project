@@ -20,7 +20,7 @@
           </Menu>
         </menus>
       </MenuBar>
-      <Button layoutX="172.0" layoutY="518.0" mnemonicParsing="false" onAction="#disconnect" prefHeight="91.0" prefWidth="157.0" text="Rozłącz">
+      <Button layoutX="172.0" layoutY="518.0" mnemonicParsing="false" onAction="#endCall" prefHeight="91.0" prefWidth="157.0" text="Rozłącz">
          <font>
             <Font size="24.0" />
          </font>

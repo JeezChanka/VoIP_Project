@@ -21,8 +21,8 @@ public class MicroThread implements Runnable {
     public void run() {
         Client client = Client.getClient();
 
-        try (TargetDataLine micro = AudioSystem.getTargetDataLine(CallThread.AUDIO_FORMAT)) {
-            micro.open(CallThread.AUDIO_FORMAT);
+        try (TargetDataLine micro = AudioSystem.getTargetDataLine(SpeakerThread.AUDIO_FORMAT)) {
+            micro.open(SpeakerThread.AUDIO_FORMAT);
             micro.start();
 
             while (listening) {

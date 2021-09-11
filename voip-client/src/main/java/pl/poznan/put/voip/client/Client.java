@@ -6,7 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import pl.poznan.put.voip.client.threads.CallThread;
+import pl.poznan.put.voip.client.threads.SpeakerThread;
 import pl.poznan.put.voip.client.threads.KeepAliveThread;
 import pl.poznan.put.voip.client.nethandlers.ServerNetHandler;
 import pl.poznan.put.voip.client.services.UserService;
@@ -34,13 +34,13 @@ public class Client {
 
     private Session currentSession;
 
-
     private CallSocketWrapper callSocket;
     private Controller currentController;
     private Controller currentSubController;
 
     private Thread keepAliveThread;
     private MicroThread microThread;
+    private SpeakerThread speakerThread;
 
     private final UserService userService = new UserService();
 
@@ -123,18 +123,17 @@ public class Client {
     public synchronized void setCurrentSession(Session session) throws SocketException {
         this.currentSession = session;
 
-        CallThread runnable = new CallThread(new DatagramSocket());
-        this.callSocket = runnable.getCallSocket();
+        DatagramSocket socket = new DatagramSocket();
+        socket.connect(session.getSocket().getSocket().getInetAddress(), 24444);
 
-        new Thread(runnable).start();
+        this.speakerThread = new SpeakerThread(socket);
+        this.callSocket = speakerThread.getCallSocket();
+
+        new Thread(speakerThread).start();
     }
 
     public Session currentSession() {
         return currentSession;
-    }
-
-    public synchronized void handleUDP(DatagramPacket packet) {
-
     }
 
     public synchronized void startKeepAliveThread() {
@@ -145,6 +144,11 @@ public class Client {
     public synchronized void startMicroThread() {
         microThread = new MicroThread();
         new Thread(microThread).start();
+    }
+
+    public synchronized void flushSpeaker() {
+        if (speakerThread != null)
+            this.speakerThread.clean();
     }
 
     public synchronized boolean isMuted() {
