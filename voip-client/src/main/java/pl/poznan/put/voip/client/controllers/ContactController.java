@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import pl.poznan.put.voip.client.Client;
 import pl.poznan.put.voip.client.services.UserService;
@@ -19,9 +20,6 @@ import java.lang.reflect.Array;
 public class ContactController implements Controller {
     @FXML
     public TableColumn logins;
-
-    @FXML
-    private Text callingUser;
 
     @FXML
     private Text userName;
@@ -41,7 +39,7 @@ public class ContactController implements Controller {
     }
 
     @FXML
-    private TextArea receiverName;
+    private TextField receiverName;
 
     @FXML
     public void initialize() {

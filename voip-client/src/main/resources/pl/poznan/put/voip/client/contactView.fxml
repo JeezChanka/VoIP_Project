@@ -6,7 +6,7 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -52,11 +52,11 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Text>
-            <TextArea fx:id="receiverName" layoutX="84.0" layoutY="90.0" prefHeight="27.0" prefWidth="327.0" promptText="Nazwa adresata">
+            <TextField fx:id="receiverName" layoutX="105.0" layoutY="94.0" prefHeight="41.0" prefWidth="285.0" promptText="Nazwa adresata">
                <font>
-                  <Font size="16.0" />
+                  <Font size="18.0" />
                </font>
-            </TextArea>
+            </TextField>
             <Button layoutX="175.0" layoutY="162.0" mnemonicParsing="false" onAction="#callControl" prefHeight="86.0" prefWidth="146.0" text="Połącz">
                <font>
                   <Font size="24.0" />

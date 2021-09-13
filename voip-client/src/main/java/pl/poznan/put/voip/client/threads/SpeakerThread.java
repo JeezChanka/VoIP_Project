@@ -35,7 +35,7 @@ public class SpeakerThread implements Runnable {
             for (;;) {
                 try {
                     DatagramPacket packet = callSocket.receiveUdpData();
-
+                    //Logs.log("Odebrano pakiet");
                     byte[] data = packet.getData();
                     int dLen = packet.getLength();
 

@@ -40,5 +40,10 @@
             <Font size="18.0" />
          </font>
       </ToggleButton>
+      <Text fx:id="mutedMicro" fill="RED" layoutX="166.0" layoutY="393.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wyciszono mikrofon!" visible="false">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>

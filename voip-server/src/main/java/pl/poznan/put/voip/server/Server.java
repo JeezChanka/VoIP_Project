@@ -22,7 +22,7 @@ public class Server {
 
     private static final Server INSTANCE = new Server();
 
-    public static int PORT = 20250;
+    public static int PORT = 20444;
 
     private volatile boolean running = false;
     private ServerSocket serverSocket;
