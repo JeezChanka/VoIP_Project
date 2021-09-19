@@ -20,7 +20,13 @@ public class CallController implements Controller {
 
     @FXML
     void dcServer(ActionEvent event) {
+
         Client.getClient().currentSession().sendCommand("DISCONNECTCALL");
+        Client.getClient().flushSpeaker();
+
+        Client.getClient().switchTo("contactView");
+        Client.getClient().stopMicroThread();
+
         Client.getClient().disconnect();
     }
 

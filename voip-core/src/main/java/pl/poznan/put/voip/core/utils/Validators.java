@@ -3,7 +3,6 @@ package pl.poznan.put.voip.core.utils;
 import java.util.regex.Pattern;
 
 public class Validators {
-
     private static final Pattern LOGIN_REGEX = Pattern.compile("^[\\w\\-]{3,24}$");
     private static final Pattern PASSWORD_REGEX = Pattern.compile("^[\\w\\-!@#$%^&*=+]{6,24}$");
 
@@ -23,5 +22,4 @@ public class Validators {
                 && NUMBER_REGEX.matcher(password).find()
                 && SPECIAL_REGEX.matcher(password).find();
     }
-
 }

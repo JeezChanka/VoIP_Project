@@ -31,15 +31,14 @@ public class MicroThread implements Runnable {
 
                     if(!sending) continue;
 
-                    Session session = Client.getClient().currentSession();
-
+                    Session session = client.currentSession();
                     if(session == null) break;
 
                     DatagramPacket data = new DatagramPacket
                             (sendBuffer, 0, CallSocketWrapper.BUFFER_SIZE,
-                                    Client.getClient().currentSession().getSocket().getSocket().getInetAddress(), 24444);
+                                    client.currentSession().getSocket().getSocket().getInetAddress(), 24444);
 
-                    Client.getClient().getCallSocket().getSocket().send(data);
+                    client.getCallSocket().getSocket().send(data);
                 } catch (IOException ignored) {
                     Logs.log("Socket has been closed");
                     client.disconnect();
