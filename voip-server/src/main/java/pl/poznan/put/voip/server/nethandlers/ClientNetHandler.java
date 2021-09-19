@@ -299,7 +299,9 @@ public class ClientNetHandler {
 
 
             } else if (answ.equals("DECLINE")) {
+                session.sendCommand("INCOMINGCALLANSW", "OK");
                 Session tSession = cs.declineCall();
+
 
                 if(tSession != null) {
                     tSession.sendCommand("REQUESTEDCALLANSW", "DECLINE");

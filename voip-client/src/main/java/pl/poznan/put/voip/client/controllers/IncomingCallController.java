@@ -30,25 +30,6 @@ public class IncomingCallController implements Controller {
         @FXML
         void ignore(ActionEvent event) {
                 Client.getClient().currentSession().sendCommand("INCOMINGCALLANSW", "DECLINE");
-                ((Stage) ((Button) event.getSource()).getScene().getWindow()).close();
-        }
-
-        public void setUserName(String userName) {
-                this.userName.setText(userName);
-        }
-
-        @Override
-        public void onResponse(String command, String... args) {
-                switch (command) {
-                        case "INCOMINGCALLNEGATE": {
-                                handleIncomingCallNegate(args);
-                                break;
-                        }
-                        case "INCOMINGCALLANSW": {
-                                handleIncomingCallAnsw(args);
-                                break;
-                        }
-                }
         }
 
         private void handleIncomingCallNegate(String... args) {
@@ -70,6 +51,23 @@ public class IncomingCallController implements Controller {
                 }
         }
 
+        public void setUserName(String userName) {
+                this.userName.setText(userName);
+        }
+
+        @Override
+        public void onResponse(String command, String... args) {
+                switch (command) {
+                        case "INCOMINGCALLNEGATE": {
+                                handleIncomingCallNegate(args);
+                                break;
+                        }
+                        case "INCOMINGCALLANSW": {
+                                handleIncomingCallAnsw(args);
+                                break;
+                        }
+                }
+        }
         @Override
         public void onClose() {
                 Client.getClient().currentSession().sendCommand("INCOMINGCALLANSW", "DECLINE");
