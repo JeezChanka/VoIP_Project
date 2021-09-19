@@ -41,7 +41,7 @@ public class CallController implements Controller {
 
     @FXML
     void mute(ActionEvent event) {
-        Client.getClient().setMute(!Client.getClient().isMuted());
+        Client.getClient().setMicroMute(Client.getClient().isMuted());
         Logs.log("" + Client.getClient().isMuted());
 
         mutedMicro.setVisible(muteButton.isSelected());

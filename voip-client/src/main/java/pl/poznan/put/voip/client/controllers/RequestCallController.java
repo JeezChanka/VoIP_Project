@@ -2,7 +2,6 @@ package pl.poznan.put.voip.client.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import pl.poznan.put.voip.client.Client;

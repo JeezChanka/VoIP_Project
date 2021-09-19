@@ -5,7 +5,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import pl.poznan.put.voip.client.Client;
@@ -14,8 +13,6 @@ import pl.poznan.put.voip.client.utils.Controller;
 import pl.poznan.put.voip.client.utils.User;
 import pl.poznan.put.voip.core.session.Session;
 import pl.poznan.put.voip.core.utils.Logs;
-
-import java.lang.reflect.Array;
 
 public class ContactController implements Controller {
     @FXML

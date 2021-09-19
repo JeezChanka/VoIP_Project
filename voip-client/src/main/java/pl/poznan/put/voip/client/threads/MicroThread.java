@@ -15,7 +15,7 @@ public class MicroThread implements Runnable {
 
     private volatile boolean listening = true;
 
-    private volatile boolean sending = true;
+    private volatile boolean muted = false;
 
     @Override
     public void run() {
@@ -29,7 +29,7 @@ public class MicroThread implements Runnable {
                 try {
                     micro.read(sendBuffer,0, CallSocketWrapper.BUFFER_SIZE);
 
-                    if(!sending) continue;
+                    if(muted) continue;
 
                     Session session = client.currentSession();
                     if(session == null) break;
@@ -54,11 +54,11 @@ public class MicroThread implements Runnable {
         listening = false;
     }
 
-    public void setSending(boolean isSending) {
-        sending = isSending;
+    public void setMute(boolean isSending) {
+        muted = isSending;
     }
 
-    public boolean isSending(){
-        return sending;
+    public boolean isMuted(){
+        return muted;
     }
 }

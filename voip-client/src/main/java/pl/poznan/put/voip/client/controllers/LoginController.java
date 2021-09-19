@@ -12,9 +12,6 @@ import pl.poznan.put.voip.client.utils.Controller;
 public class LoginController implements Controller {
 
     @FXML
-    private Text registerText;
-
-    @FXML
     private TextField username;
 
     @FXML

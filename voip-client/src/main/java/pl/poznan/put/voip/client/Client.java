@@ -153,9 +153,9 @@ public class Client {
 
     public synchronized boolean isMuted() {
         if(microThread == null) {
-            return true;
+            return false;
         }
-        return !microThread.isSending();
+        return !microThread.isMuted();
     }
 
     public synchronized void stopMicroThread() {
@@ -165,9 +165,9 @@ public class Client {
         }
     }
 
-    public synchronized void setMute(boolean muted) {
+    public synchronized void setMicroMute(boolean isMuted) {
         if (microThread != null) {
-            microThread.setSending(!muted);
+            microThread.setMute(isMuted);
         }
     }
 
